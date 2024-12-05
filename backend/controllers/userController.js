@@ -36,8 +36,12 @@ const createUser = (req, res) => {
   const { name, about, avatar } = req.body;
   User.create({ name, about, avatar })
     .then(user => res.status(201).json(user))
-    .catch(err =>
-      res.status(500).json({ message: 'Error creating user', error: err}));
+    .catch(err =>{
+      if (err.name  === 'ValidationError') {
+        res.status(400).json({ message: 'Error creating user', error: err });
+      }
+      res.status(500).json({ message: 'Error creating user', error: err });
+    });
 };
 
 // PATCH /users/:userId - update a user by _id
