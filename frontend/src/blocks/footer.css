@@ -1,0 +1,32 @@
+.footer{
+  width:100%;
+  max-width:318px;
+  height:auto;
+  margin-top:66px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.footer__text{
+  color:#545454;
+  font-family:'Inter';
+  font-weight:400;
+  font-size:18px;
+  line-height:22px;
+  margin:0;
+}
+
+@media screen and (max-width:320px){
+  .footer{
+    width:100%;
+    height:auto;
+    margin-top:48px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+  .footer__text{
+    font-size:14px;
+    line-height:17px;
+  }
+}

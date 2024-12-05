@@ -1,0 +1,72 @@
+.tooltip{
+    display:none;
+    position: fixed;
+    top: 0;
+    left:0;
+    opacity: 0.9;
+    z-index: 100;
+    justify-content: center;
+    align-items:center;
+    transition: opacity 0.3s, visibility 0.3s ease;
+    width:100%;
+    height:100%;
+}
+
+.tooltip__open {
+    opacity: 1;
+    display: flex;
+}
+
+.tooltip__content {
+    width: 430px;
+    height:330px;
+    background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align:center;
+  position: relative;
+}
+
+.tooltip__content_success {
+    background-repeat: no-repeat;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content: center;
+  
+}
+
+.tooltip__content_error {
+    background-repeat: no-repeat;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content: center;
+}
+
+.tooltip__message{
+    width: 358px;
+    height:58px;
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+    font-family: Inter;
+}
+
+.tooltip__close {
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    font-size: 16px;
+    cursor: pointer;
+    border:none;
+    background: none;
+}
+
+.tooltip__close:hover {
+    color: #333;
+}
+
+
+

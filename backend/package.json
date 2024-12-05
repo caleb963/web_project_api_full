@@ -1,0 +1,35 @@
+{
+  "name": "web_project_around_express",
+  "version": "1.0.0",
+  "description": "project express.js",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "express yes",
+    "lint": "npx eslint **/*.{js,jsx}"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/caleb963/web_project_around_express.git"
+  },
+  "keywords": [
+    "project_express",
+    "1.0"
+  ],
+  "author": "Caleb Manriquez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/caleb963/web_project_around_express/issues"
+  },
+  "homepage": "https://github.com/caleb963/web_project_around_express#readme",
+  "devDependencies": {
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb-base": "^x.x.x"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "mongoose": "^8.6.0",
+    "nodemon": "^3.1.4"
+  }
+}
