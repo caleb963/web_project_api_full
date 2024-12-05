@@ -1,23 +1,25 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
+const bcrypt = require('bcryptjs');
 
 const urlRegex = /^(https?:\/\/)(www\.)?([a-zA-Z0-9._~:/?%#[\]@!$&'()*+,;=-]+)$/;
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    default: 'Jacques Cousteau',
     minlength: 2,
     maxlength:30,
   },
   about : {
     type: String,
-    required: true,
+    default: 'Explorer',
     minlength: 2,
     maxlength: 30,
   },
   avatar: {
     type: String,
-    required: true,
+    default: 'https://practicum-content.s3.us-west-1.amazonaws.com/resources/moved_avatar_1604080799.jpg',
     validate: {
       validator: function(v) {
         return urlRegex.test(v);
