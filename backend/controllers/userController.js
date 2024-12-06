@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
 // GET /users - returns all users
@@ -31,6 +33,7 @@ const getUserById = (req, res) => {
         res.status(500).json({ message: 'Error retrieving user', error: err});
     });
 }
+
 // POST /users - creates a user
 const createUser = (req, res) => {
   const { name, about, avatar } = req.body;
@@ -38,7 +41,7 @@ const createUser = (req, res) => {
     .then(user => res.status(201).json(user))
     .catch(err =>{
       if (err.name  === 'ValidationError') {
-        res.status(400).json({ message: 'Error creating user', error: err });
+       return res.status(400).json({ message: 'Invalid data', error: err });
       }
       res.status(500).json({ message: 'Error creating user', error: err });
     });
@@ -100,6 +103,28 @@ const updateUserAvatar = (req, res) => {
       res.status(500).json({ message: 'Error updating avatar', error: err });
     });
 };
+
+// POST /login - authenticate a user and return a JWT
+ const login = (req, res) => {
+  const { email, password} = req.body;
+
+  User.findOne({ email })
+    .then(user => {
+      if(!user) {
+        return res.status(401).json({ message: 'Invalid email or password'});
+      }
+
+      bcrypt.compare(password, user.password, (err, isMatch) => {
+        if (err || !isMatch) {
+          return res.status(401).json({ message: 'Invalid email or password'});
+        }
+
+        const token = jwt.sign({ _id: user._id}, 'your_jwt_secret', { expiresIn: '7d'});
+        res.status(200).json({ token });
+      });
+    })
+    .catch(err => res.status(500).json({ message: 'Error logging in', error: err}));
+ };
 
 module.exports = {
   getAllUsers,
