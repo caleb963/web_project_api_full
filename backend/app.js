@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const {updateUser, updateUserAvatar, login, createUser } = require('./controllers/userController');
+const {updateUser, updateUserAvatar, login, createUser, getCurrentUser } = require('./controllers/userController');
 const { likeCard, dislikeCard } = require('./controllers/cardController');
 const auth = require('./middlewares/auth');
 
@@ -34,6 +34,10 @@ app.post('/signup', createUser);
 // use the routers
 app.use('/users', auth, usersRouter);
 app.use('/cards', auth, cardsRouter);
+
+// route to get the current user
+app.get('/users/me', auth, getCurrentUser);
+
 
 // other routes
 
