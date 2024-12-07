@@ -32,6 +32,8 @@ app.post('/signin', login);
 app.post('/signup', createUser);
 
 // use the routers
+app.use(auth); // Apply the auth middleware to all routes below
+
 app.use('/users', auth, usersRouter);
 app.use('/cards', auth, cardsRouter);
 
