@@ -13,9 +13,6 @@ router.get('/', getAllUsers);
 // GET /users/:userId - return a user by _id
 router.get('/:userId', getUserById);
 
-// POST / users - creates a new user
-router.post('/', createUser);
-
 // PATCH /users/:userId - updates a user by _id
 router.patch('/:userId', updateUser);
 

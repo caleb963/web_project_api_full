@@ -26,7 +26,30 @@ const userSchema = new mongoose.Schema({
       },
       message: props => `${props.value} is not  a valid URL!`
     }
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    validate: {
+      validator: function(v) {
+        return validator.isEmail(v);
+      },
+      message: props => `${props.value} is not a valid email!`
+    }
+  },
+  password: {
+    type: String,
+    required: true,
   }
+});
+
+// Hash the password before saving the user
+userSchema.pre('save', async function(next) {
+  if (this.isModified('password')) {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+  next();
 });
 
 module.exports = mongoose.model('user', userSchema);

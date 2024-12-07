@@ -39,6 +39,8 @@ app.use('/users', usersRouter);
 app.use('/cards', cardsRouter);
 
 // new routes
+app.post('/signin', ligin);
+app.post('/signup', createUser);
 app.patch('/users/me', updateUser);
 app.patch('/users/me/avatar', updateUserAvatar);
 app.put('/cards/:cardId/likes', likeCard);
