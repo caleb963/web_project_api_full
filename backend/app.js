@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const {updateUser, updateUserAvatar, login, createUser, getCurrentUser } = require('./controllers/userController');
-const { likeCard, dislikeCard } = require('./controllers/cardController');
+const { likeCard, dislikeCard, deleteCard } = require('./controllers/cardController');
 const auth = require('./middlewares/auth');
 
 const app = express();

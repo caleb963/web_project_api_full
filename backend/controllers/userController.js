@@ -37,7 +37,7 @@ const getUserById = (req, res) => {
 // POST /users - creates a user
 const createUser = (req, res) => {
   const { name, about, avatar } = req.body;
-  User.create({ name, about, avatar })
+  User.create({ name, about, avatar, email, password })
     .then(user => res.status(201).json(user))
     .catch(err =>{
       if (err.name  === 'ValidationError') {
@@ -51,6 +51,11 @@ const createUser = (req, res) => {
 const updateUser = (req, res) => {
   const { userId } = req.params;
   const { name, about } = req.body;
+
+  //check if the user is the owner of the card
+  if (userId !== req.user._id) {
+    return res.status(403).json({ message: 'You do not have permission to update this profile' });
+  }
 
  // validate if userId is a valid ObjectId
  if (!mongoose.Types.ObjectId.isValid(userId)) {
@@ -80,6 +85,11 @@ const updateUser = (req, res) => {
 const updateUserAvatar = (req, res) => {
   const { userId } = req.params;
   const { avatar } = req.body;
+
+  // Check if the user is the owner of the profile
+  if (userId !== req.user._id) {
+    return res.status(403).json({ message: 'You do not have permission to update this profile' });
+  }
 
   // validate if userId is a valid ObjectId
   if (!mongoose.Types.ObjectId.isValid(userId)) {
