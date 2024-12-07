@@ -1,9 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const {updateUser,
-  updateUserAvatar } = require('./controllers/userController');
+const {updateUser, updateUserAvatar, login, createUser } = require('./controllers/userController');
 const { likeCard, dislikeCard } = require('./controllers/cardController');
+const auth = require('./middlewares/auth');
 
 const app = express();
 
@@ -23,24 +23,20 @@ require('./models/user');
 require('./models/card');
 
 
-
-// middleware for adding user to request( for testing purposes)
-app.use((req, res, next) => {
-  req.user = { _id: '5d8b8592978f8bd833ca8133'}; // add a user for testing
-  next();
-});
-
 // read and data from JSON file
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 
-// use the routers
-app.use('/users', usersRouter);
-app.use('/cards', cardsRouter);
-
 // new routes
-app.post('/signin', ligin);
+app.post('/signin', login);
 app.post('/signup', createUser);
+
+// use the routers
+app.use('/users', auth, usersRouter);
+app.use('/cards', auth, cardsRouter);
+
+// other routes
+
 app.patch('/users/me', updateUser);
 app.patch('/users/me/avatar', updateUserAvatar);
 app.put('/cards/:cardId/likes', likeCard);
