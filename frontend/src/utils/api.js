@@ -1,8 +1,7 @@
 class Api {
-    constructor({ adress, groupId, token }) {
+    constructor({ adress, groupId}) {
         this._adress = adress;
         this._groupId = groupId;
-        this._token = token;
     }
 
     _getHeaders() {

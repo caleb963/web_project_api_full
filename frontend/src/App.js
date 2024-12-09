@@ -30,7 +30,16 @@ const [isAuthenticated, setIsAuthenticated] = useState(false);
 const [tooltipMessage, setToolTipMessage] = useState('');
 const [tooltipType, setTooltipType] = useState('');
 const [isTooltipOpen, setIsTooltipOpen] = useState(false);
+const [token, setToken] = useState(localStorage.getItem('token') || '');
 const navigate = useNavigate();
+
+useEffect(() => {
+  if(token) {
+    localStorage.setItem('token', token);
+  } else {
+    localStorage.removeItem('token');
+  }
+}, [token]);
 
 useEffect(() => {
   const token = localStorage.getItem('token');
@@ -62,7 +71,7 @@ api.getCards()
   })
   .catch((err) => console.log(err));
   }
-}, [isAuthenticated]);
+}, [isAuthenticated, token]);
 
 const handleEditAvatarClick = () => {
   setEditAvatarPopupOpen(true);
@@ -89,7 +98,7 @@ const closeAllPopups = () => {
 };
 
 const handleUpdateUser =(userData) => {
-  api.updateUserInfo(userData)
+  api.updateUserInfo(userData, token)
     .then((updatedUserData) => {
       setCurrentUser(updatedUserData);
       closeAllPopups();
@@ -98,7 +107,7 @@ const handleUpdateUser =(userData) => {
 }
 
 const handleUpdateAvatar = (avatarData) => {
-  api.setUserAvatar(avatarData)
+  api.setUserAvatar(avatarData, token)
     .then((updatedUserData) => {
       setCurrentUser(updatedUserData);
       closeAllPopups();
@@ -170,7 +179,7 @@ const  handleRegister = (email, password) => {
 const handleLogout = () => {
   setIsAuthenticated(false);
   setCurrentUser({});
-  localStorage.removeItem('token');
+  setToken('');
 };
 
   return (
