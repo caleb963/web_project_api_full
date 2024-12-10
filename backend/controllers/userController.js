@@ -18,7 +18,7 @@ const getUserById = (req, res, next) => {
   if (!mongoose.Types.ObjectId.isValid(userId)) {
     const error = new Error('Invalid user ID');
     error.statusCode = 400;
-    return res.status(400).json({ message: 'Invalid user ID'});
+    return next(error);
   }
 
   User.findById(userId)
@@ -129,7 +129,7 @@ const updateUserAvatar = (req, res, next) => {
         if (err || !isMatch) {
           const error = new Error('Invalid email or password');
           error.statusCode = 401;
-          throw error;
+          return next(error);
         }
 
         const token = jwt.sign({ _id: user._id}, 'your_jwt_secret', { expiresIn: '7d'});

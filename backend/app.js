@@ -5,6 +5,8 @@ const {updateUser, updateUserAvatar, login, createUser, getCurrentUser } = requi
 const { likeCard, dislikeCard, deleteCard } = require('./controllers/cardController');
 const auth = require('./middlewares/auth');
 const errorHandler = require('./middlewares/errorHandler');
+const { errors } = require('celebrate');
+const userValidation = require('./middlewares/validation');
 
 const app = express();
 
@@ -54,6 +56,10 @@ app.delete('/cards/:cardId/likes', dislikeCard);
 app.use((req, res) => {
   res.status(404).json({ message: 'Route not found' });
 });
+
+//  use the error handler middleware
+app.use(errors());
+app.use(errorHandler);
 
  const PORT =  process.env.PORT || 3000;
 app.listen( PORT , () => {
