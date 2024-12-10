@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const {updateUser, updateUserAvatar, login, createUser, getCurrentUser } = require('./controllers/userController');
 const { likeCard, dislikeCard, deleteCard } = require('./controllers/cardController');
 const auth = require('./middlewares/auth');
+const errorHandler = require('./middlewares/errorHandler');
 
 const app = express();
 
