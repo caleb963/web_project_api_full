@@ -7,6 +7,7 @@ const auth = require('./middlewares/auth');
 const errorHandler = require('./middlewares/errorHandler');
 const { errors } = require('celebrate');
 const userValidation = require('./middlewares/validation');
+const { requestLogger, errorLogger } = require('./middlewares/loggers');
 
 const app = express();
 
@@ -25,29 +26,32 @@ mongoose.connect('mongodb://localhost:27017/aroundb', {
 require('./models/user');
 require('./models/card');
 
+// apply request logger
+app.use(requestLogger);
+
 
 // read and data from JSON file
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 
 // new routes
-app.post('/signin', login);
-app.post('/signup', createUser);
+app.post('/signin', userValidation.login, login);
+app.post('/signup', userValidation.createUser , createUser);
 
 // use the routers
 app.use(auth); // Apply the auth middleware to all routes below
 
-app.use('/users', auth, usersRouter);
-app.use('/cards', auth, cardsRouter);
+app.use('/users', usersRouter);
+app.use('/cards', cardsRouter);
 
 // route to get the current user
-app.get('/users/me', auth, getCurrentUser);
+app.get('/users/me', getCurrentUser);
 
 
 // other routes
 
-app.patch('/users/me', updateUser);
-app.patch('/users/me/avatar', updateUserAvatar);
+app.patch('/users/me', userValidation.updateUser, updateUser);
+app.patch('/users/me/avatar', userValidation.updateUserAvatar, updateUserAvatar);
 app.put('/cards/:cardId/likes', likeCard);
 app.delete('/cards/:cardId/likes', dislikeCard);
 

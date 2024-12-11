@@ -1,6 +1,8 @@
 # Logs
 logs
 *.log
+request.log
+error.log
 npm-debug.log*
 
 # Directorio de dependencias
