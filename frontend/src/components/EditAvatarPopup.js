@@ -5,7 +5,7 @@ import CurrentUserContext from './CurrentUserContext';
 
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
     const avatarRef = useRef();
-    const currentUser = useContext(CurrentUserContext);
+    //const currentUser = useContext(CurrentUserContext);
 
     function handleSubmit(e) {
         e.preventDefault();
