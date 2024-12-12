@@ -32,6 +32,13 @@ require('./models/card');
 // apply request logger
 app.use(requestLogger);
 
+// Crash test route
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Server will crash now');
+  }, 0);
+})
+
 
 // read and data from JSON file
 const usersRouter = require('./routes/users');
