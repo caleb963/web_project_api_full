@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const {updateUser, updateUserAvatar, login, createUser, getCurrentUser } = require('./controllers/userController');
 const { likeCard, dislikeCard, deleteCard } = require('./controllers/cardController');
 const auth = require('./middlewares/auth');
@@ -11,7 +12,9 @@ const { requestLogger, errorLogger } = require('./middlewares/loggers');
 
 const app = express();
 
-
+// habilitate CORS
+app.use(cors());
+app.options('*', cors());
 
 // middleware for parsing JSON
 app.use(bodyParser.json());
