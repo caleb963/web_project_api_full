@@ -82,7 +82,7 @@ addCard(data) {
 }
 
 const api = new Api({
-    adress: 'https://tripleten.desarrollointerno.com',
+    adress: 'api.AroundAbai.jumpingcrab.com',
     groupId: 'web_es_12',
 });
 

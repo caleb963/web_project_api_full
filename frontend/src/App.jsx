@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Navigate ,redirect, useNavigate} from 'react-router-dom';
-import Header from './components/Header';
-import Main from './components/Main';
-import Footer from './components/Footer';
-import PopupWithForm from './components/PopupWithForm';
-import ImagePopup from './components/ImagePopup';
+import { Routes, Route, useNavigate} from 'react-router-dom';
+import Header from './components/Header.jsx';
+import Main from './components/Main.jsx';
+import Footer from './components/Footer.jsx';
+import PopupWithForm from './components/PopupWithForm.jsx';
+import ImagePopup from './components/ImagePopup.jsx';
 import closeIcon from './images/Close__Icon.png';
-import CurrentUserContext from './components/CurrentUserContext';
+import CurrentUserContext from './components/CurrentUserContext.jsx';
 import api from './utils/api';
-import EditProfilePopup from './components/EditProfilePopup';
-import EditAvatarPopup from './components/EditAvatarPopup';
-import AddPlacePopup from './components/AddPlacePopup'
-import Login from "./components/Login";
-import Register from "./components/Register";
-import ProtectedRoute from "./components/ProtectedRoute";
-import InfoTooltip from './components/InfoTooltip';
+import EditProfilePopup from './components/EditProfilePopup.jsx';
+import EditAvatarPopup from './components/EditAvatarPopup.jsx';
+import AddPlacePopup from './components/AddPlacePopup.jsx';
+import Login from "./components/Login.jsx";
+import Register from "./components/Register.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import InfoTooltip from './components/InfoTooltip.jsx';
 import { register, login, checkToken } from './utils/auth';
 
 
