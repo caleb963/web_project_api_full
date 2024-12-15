@@ -6,7 +6,7 @@ const User = require('../models/user');
 // GET /users - returns all users
 const getAllUsers = (req, res, next) => {
   User.find({})
-    .then(users => res.status(200).json(users))
+    .then((users) => res.status(200).json(users))
     .catch(next);
 };
 
@@ -22,24 +22,25 @@ const getUserById = (req, res, next) => {
   }
 
   User.findById(userId)
-  .orFail(() => {
-    const error = new Error('User not found');
-    error.statusCode = 404;
-    throw error;
-  })
-    .then(user => res.status(200).json(user))
+    .orFail(() => {
+      const error = new Error('User not found');
+      error.statusCode = 404;
+      throw error;
+    })
+    .then((user) => res.status(200).json(user))
     .catch(next);
-}
+};
 
 // POST /users - creates a user
 const createUser = (req, res, next) => {
   const { name, about, avatar, email, password } = req.body;
-  bcrypt.hash(password, 10)
-    .then(hash => User.create ({ name, about ,avatar, email, password: hash }))
-    .then(user => res.status(201).json(user))
-    .catch(err =>{
-      if (err.name  === 'ValidationError') {
-       err.statusCode = 400;
+  bcrypt
+    .hash(password, 10)
+    .then((hash) => User.create({ name, about, avatar, email, password: hash }))
+    .then((user) => res.status(201).json(user))
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        err.statusCode = 400;
       }
       next(err);
     });
@@ -52,27 +53,32 @@ const updateUser = (req, res, next) => {
 
   //check if the user is the owner of the card
   if (userId !== req.user._id) {
-    const error = new Error('You do not have permission to update this profile');
+    const error = new Error(
+      'You do not have permission to update this profile',
+    );
     error.statusCode = 403;
     return next(error);
   }
 
- // validate if userId is a valid ObjectId
- if (!mongoose.Types.ObjectId.isValid(userId)) {
-   const error = new Error('Invalid user ID');
-   error.statusCode = 400;
-   return next(error);
-}
+  // validate if userId is a valid ObjectId
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    const error = new Error('Invalid user ID');
+    error.statusCode = 400;
+    return next(error);
+  }
 
-
-  User.findByIdAndUpdate(userId, { name, about }, { new: true, runValidators: true})
+  User.findByIdAndUpdate(
+    userId,
+    { name, about },
+    { new: true, runValidators: true },
+  )
     .orFail(() => {
       const error = new Error('User not found');
       error.statusCode = 404;
       throw error;
     })
-    .then(user => res.status(200).json(user))
-    .catch(err => {
+    .then((user) => res.status(200).json(user))
+    .catch((err) => {
       if (err.name === 'ValidationError') {
         err.statusCode = 400;
       }
@@ -87,7 +93,9 @@ const updateUserAvatar = (req, res, next) => {
 
   // Check if the user is the owner of the profile
   if (userId !== req.user._id) {
-    const error = new Error('You do not have permission to update this profile');
+    const error = new Error(
+      'You do not have permission to update this profile',
+    );
     error.statusCode = 403;
     return next(error);
   }
@@ -105,8 +113,8 @@ const updateUserAvatar = (req, res, next) => {
       error.statusCode = 404;
       throw error;
     })
-    .then(user => res.status(200).json(user))
-    .catch(err => {
+    .then((user) => res.status(200).json(user))
+    .catch((err) => {
       if (err.name === 'ValidationError') {
         err.statusCode = 400;
       }
@@ -115,12 +123,13 @@ const updateUserAvatar = (req, res, next) => {
 };
 
 // POST /login - authenticate a user and return a JWT
- const login = (req, res, next) => {
-  const { email, password} = req.body;
+const login = (req, res, next) => {
+  const { email, password } = req.body;
 
-  User.findOne({ email }).select('+password')
-    .then(user => {
-      if(!user) {
+  User.findOne({ email })
+    .select('+password')
+    .then((user) => {
+      if (!user) {
         const error = new Error('Invalid email or password');
         error.statusCode = 401;
         throw error;
@@ -133,22 +142,24 @@ const updateUserAvatar = (req, res, next) => {
           return next(error);
         }
 
-        const token = jwt.sign({ _id: user._id}, 'your_jwt_secret', { expiresIn: '7d'});
+        const token = jwt.sign({ _id: user._id }, 'your_jwt_secret', {
+          expiresIn: '7d',
+        });
         res.status(200).json({ token });
       });
     })
     .catch(next);
- };
+};
 
 const getCurrentUser = (req, res, next) => {
   const userId = req.user._id;
 
   User.findById(userId)
-    .then(user => {
+    .then((user) => {
       if (!user) {
         const error = new Error('User not found');
         error.statusCode = 404;
-        throw error
+        throw error;
       }
       res.status(200).json(user);
     })

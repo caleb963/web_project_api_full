@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
-const urlRegex = /^(https?:\/\/)(www\.)?([a-zA-Z0-9._~:/?%#[\]@!$&'()*+,;=-]+)$/;
+const urlRegex =
+  /^(https?:\/\/)(www\.)?([a-zA-Z0-9._~:/?%#[\]@!$&'()*+,;=-]+)$/;
 
 const cardSchema = new mongoose.Schema({
   name: {
@@ -13,11 +14,11 @@ const cardSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: function(v) {
+      validator: function (v) {
         return urlRegex.test(v);
       },
-      message: props => `${props.value} ins not a valid URL!`
-    }
+      message: (props) => `${props.value} ins not a valid URL!`,
+    },
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
@@ -32,7 +33,7 @@ const cardSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-  }
+  },
 });
 
 module.exports = mongoose.model('card', cardSchema);

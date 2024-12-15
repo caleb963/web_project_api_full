@@ -30,7 +30,7 @@ const userValidation = {
     }),
   }),
   userId: celebrate({
-    [Segments.PARAMS] : Joi.object().keys({
+    [Segments.PARAMS]: Joi.object().keys({
       userId: Joi.string().hex().length(24).required(),
     }),
   }),
@@ -39,7 +39,7 @@ const userValidation = {
       email: Joi.string().email().required(),
       password: Joi.string().required(),
     }),
-  })
+  }),
 };
 
 module.exports = userValidation;

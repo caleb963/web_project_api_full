@@ -7,7 +7,8 @@
     "start": "node app.js",
     "dev": "nodemon app.js",
     "test": "express yes",
-    "lint": "npx eslint **/*.{js,jsx}"
+    "lint": "npx eslint **/*.{js,jsx}",
+    "format": "prettier --write \"**/*.{js,jsx}\""
   },
   "repository": {
     "type": "git",
@@ -25,7 +26,10 @@
   "homepage": "https://github.com/caleb963/web_project_around_express#readme",
   "devDependencies": {
     "eslint": "^8.2.0",
-    "eslint-config-airbnb-base": "^x.x.x"
+    "eslint-config-airbnb-base": "^x.x.x",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.37.2",
+    "prettier": "^3.4.2"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

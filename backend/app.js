@@ -2,8 +2,18 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const {updateUser, updateUserAvatar, login, createUser, getCurrentUser } = require('./controllers/userController');
-const { likeCard, dislikeCard, deleteCard } = require('./controllers/cardController');
+const {
+  updateUser,
+  updateUserAvatar,
+  login,
+  createUser,
+  getCurrentUser,
+} = require('./controllers/userController');
+const {
+  likeCard,
+  dislikeCard,
+  deleteCard,
+} = require('./controllers/cardController');
 const auth = require('./middlewares/auth');
 const errorHandler = require('./middlewares/errorHandler');
 const { errors } = require('celebrate');
@@ -40,7 +50,7 @@ const cardsRouter = require('./routes/cards');
 
 // new routes
 app.post('/signin', userValidation.login, login);
-app.post('/signup', userValidation.createUser , createUser);
+app.post('/signup', userValidation.createUser, createUser);
 
 // use the routers
 app.use(auth); // Apply the auth middleware to all routes below
@@ -51,14 +61,16 @@ app.use('/cards', cardsRouter);
 // route to get the current user
 app.get('/users/me', getCurrentUser);
 
-
 // other routes
 
 app.patch('/users/me', userValidation.updateUser, updateUser);
-app.patch('/users/me/avatar', userValidation.updateUserAvatar, updateUserAvatar);
+app.patch(
+  '/users/me/avatar',
+  userValidation.updateUserAvatar,
+  updateUserAvatar,
+);
 app.put('/cards/:cardId/likes', likeCard);
 app.delete('/cards/:cardId/likes', dislikeCard);
-
 
 // manage non-existing routes
 app.use((req, res) => {
@@ -69,7 +81,7 @@ app.use((req, res) => {
 app.use(errors());
 app.use(errorHandler);
 
- const PORT =  process.env.PORT || 3001;
-app.listen( PORT , () => {
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
