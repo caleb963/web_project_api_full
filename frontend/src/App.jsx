@@ -3,9 +3,8 @@ import { Routes, Route, useNavigate} from 'react-router-dom';
 import Header from './components/Header.jsx';
 import Main from './components/Main.jsx';
 import Footer from './components/Footer.jsx';
-import PopupWithForm from './components/PopupWithForm.jsx';
+import PopupWithForm from './components/PopupWithForm.jsx'
 import ImagePopup from './components/ImagePopup.jsx';
-import closeIcon from './images/Close__Icon.png';
 import CurrentUserContext from './components/CurrentUserContext.jsx';
 import api from './utils/api';
 import EditProfilePopup from './components/EditProfilePopup.jsx';
@@ -166,6 +165,7 @@ const  handleRegister = (email, password) => {
     login(email, password).then((data) => {
       if (data.token) {
         localStorage.setItem('token', data.token)
+        setToken(data.token)
         setIsAuthenticated(true);
         navigate('/');
       } else {
@@ -173,6 +173,10 @@ const  handleRegister = (email, password) => {
         setTooltipType('error');
         setIsTooltipOpen(true);
       }
+    }).catch((err) => {
+      setToolTipMessage('Login failed!');
+      setTooltipType('error');
+      setIsTooltipOpen(true);
     });
   };
 
