@@ -1,11 +1,11 @@
 import React, {useState , useEffect, useContext} from'react';
 import api from '../utils/api.js';
-import Card from './Card.js';
+import Card from './Card.jsx';
 import profileAvatar from '../images/profile__avatar.png';
 import profileAvatarEditIcon from '../images/Edit__Button.png';
 import editButtonIcon from '../images/Edit__Button.png';
 import addButtonIcon from '../images/add__Button.png';
-import CurrentUserContext from './CurrentUserContext.js';
+import CurrentUserContext from './CurrentUserContext.jsx';
 
 
 function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, cards, onCardLike, onCardDelete}) {
