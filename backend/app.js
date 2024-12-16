@@ -11,14 +11,13 @@ const {
 } = require('./controllers/userController');
 const {
   likeCard,
-  dislikeCard,
-  deleteCard,
+  dislikeCard, deleteCard
 } = require('./controllers/cardController');
 const auth = require('./middlewares/auth');
 const errorHandler = require('./middlewares/errorHandler');
 const { errors } = require('celebrate');
 const userValidation = require('./middlewares/validation');
-const { requestLogger, errorLogger } = require('./middlewares/loggers');
+const { requestLogger} = require('./middlewares/loggers');
 
 require('dotenv').config(); // load environment variables
 
@@ -32,10 +31,7 @@ app.options('*', cors());
 app.use(bodyParser.json());
 
 // connect to MONGODB
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(process.env.MONGO_URI);
 
 // import models
 require('./models/user');
@@ -44,9 +40,19 @@ require('./models/card');
 // apply request logger
 app.use(requestLogger);
 
+
+// Crash test route
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Server will crash now');
+  }, 0);
+});
+
 // read and data from JSON file
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
+
+
 
 // new routes
 app.post('/signin', userValidation.login, login);
@@ -81,7 +87,7 @@ app.use((req, res) => {
 app.use(errors());
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

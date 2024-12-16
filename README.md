@@ -62,4 +62,4 @@ Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para má
 
 ## Contact me
 
-For any dour you can contact me in the email jcaleb1110@gmail.com.
+For any doubt you can contact me in the email jcaleb1110@gmail.com.

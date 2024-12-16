@@ -33,7 +33,7 @@ const getUserById = (req, res, next) => {
 
 // POST /users - creates a user
 const createUser = (req, res, next) => {
-  const { name, about, avatar, email, password } = req.body;
+  const { name = 'JacquesCousteau', about = 'Explorer', avatar = 'https://practicum-content.s3.us-west-1.amazonaws.com/resources/moved_avatar_1604080799.jpg', email, password } = req.body;
   bcrypt
     .hash(password, 10)
     .then((hash) => User.create({ name, about, avatar, email, password: hash }))
@@ -44,6 +44,35 @@ const createUser = (req, res, next) => {
       }
       next(err);
     });
+};
+
+// POST /login - authenticate a user and return a JWT
+const login = (req, res, next) => {
+  const { email, password } = req.body;
+
+  User.findOne({ email })
+    .select('+password')
+    .then((user) => {
+      if (!user) {
+        const error = new Error('Invalid email or password');
+        error.statusCode = 401;
+        throw error;
+      }
+
+      bcrypt.compare(password, user.password, (err, isMatch) => {
+        if (err || !isMatch) {
+          const error = new Error('Invalid email or password');
+          error.statusCode = 401;
+          return next(error);
+        }
+
+        const token = jwt.sign({ _id: user._id }, 'your_jwt_secret', {
+          expiresIn: '7d',
+        });
+        res.status(200).json({ token });
+      });
+    })
+    .catch(next);
 };
 
 // PATCH /users/:userId - update a user by _id
@@ -120,35 +149,6 @@ const updateUserAvatar = (req, res, next) => {
       }
       next(err);
     });
-};
-
-// POST /login - authenticate a user and return a JWT
-const login = (req, res, next) => {
-  const { email, password } = req.body;
-
-  User.findOne({ email })
-    .select('+password')
-    .then((user) => {
-      if (!user) {
-        const error = new Error('Invalid email or password');
-        error.statusCode = 401;
-        throw error;
-      }
-
-      bcrypt.compare(password, user.password, (err, isMatch) => {
-        if (err || !isMatch) {
-          const error = new Error('Invalid email or password');
-          error.statusCode = 401;
-          return next(error);
-        }
-
-        const token = jwt.sign({ _id: user._id }, 'your_jwt_secret', {
-          expiresIn: '7d',
-        });
-        res.status(200).json({ token });
-      });
-    })
-    .catch(next);
 };
 
 const getCurrentUser = (req, res, next) => {
