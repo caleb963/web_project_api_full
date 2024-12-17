@@ -23,9 +23,15 @@ require('dotenv').config(); // load environment variables
 
 const app = express();
 
-// habilitate CORS
-app.use(cors());
-app.options('*', cors());
+// config CORS
+const corsOptions = {
+  origin: process.env.CLIENT_URL || 'http://localhost:3000', // allow the frontend to access this server
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, // allow session cookies and headers of authh
+  optionsSuccessStatus: 204,
+}
+
+app.use(cors(corsOptions));
 
 // middleware for parsing JSON
 app.use(bodyParser.json());
