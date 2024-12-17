@@ -82,7 +82,7 @@ addCard(data) {
 }
 
 const api = new Api({
-    adress: 'api.AroundAbai.jumpingcrab.com',
+    adress: 'https://api.AroundAbai.jumpingcrab.com',
     groupId: 'web_es_12',
 });
 
