@@ -31,24 +31,9 @@ const deleteCard = (req, res) => {
   const { cardId } = req.params;
 
   //validateif CardId is a valid ObjectId
-  if (!mongoose.Types.ObjectId.isValid(Id)) {
+  if (!mongoose.Types.ObjectId.isValid(cardId)) {
     return res.status(400).json({ message: 'Invalid card ID' });
   }
-
-  /*Card.findByIdAndDelete(cardId)
-.orFail(() => {
-  const error = new Error('Card not found');
-  error.statusCode = 404;
-  throw error;
-})
-.then(() => res.status(200).json({ message: 'Card deleted succesfully' }))
-.catch(err =>{
-  if (err.statusCode === 400) {
-    return res.status(404).json({ message: err.message});
-  }
-  res.status(500).json({ message: 'Error deleting card', error: err});
-});
-};*/
 
   Card.findById(cardId)
     .then((card) => {

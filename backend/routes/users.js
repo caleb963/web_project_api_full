@@ -3,7 +3,6 @@ const router = express.Router();
 const {
   getAllUsers,
   getUserById,
-  createUser,
   updateUser,
   updateUserAvatar,
 } = require('../controllers/userController');

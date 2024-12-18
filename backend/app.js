@@ -11,7 +11,7 @@ const {
 } = require('./controllers/userController');
 const {
   likeCard,
-  dislikeCard, deleteCard
+  dislikeCard
 } = require('./controllers/cardController');
 const auth = require('./middlewares/auth');
 const errorHandler = require('./middlewares/errorHandler');
@@ -29,7 +29,7 @@ const corsOptions = {
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true, // allow session cookies and headers of authh
   optionsSuccessStatus: 204,
-}
+};
 
 app.use(cors(corsOptions));
 
