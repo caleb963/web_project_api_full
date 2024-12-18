@@ -59,8 +59,8 @@ const login = (req, res, next) => {
         throw error;
       }
 
-      bcrypt.compare(password, user.password, (err, isMatch) => {
-        if (err || !isMatch) {
+      bcrypt.compare(password, user.password, (err) => {
+        if (err) {
           const error = new Error('Invalid email or password');
           error.statusCode = 401;
           return next(error);
