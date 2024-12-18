@@ -24,7 +24,7 @@ require('dotenv').config(); // load environment variables
 const app = express();
 
 // config CORS
-const corsOptions = {options: ['http://localhost:3000', 'http://localhost:3001', 'https://aroundabai.jumpingcrab.com', 'https://www.aroundabai.jumpingcrab.com']};
+const corsOptions = {origin: ['http://localhost:3000', 'http://localhost:3001', 'https://aroundabai.jumpingcrab.com', 'https://www.aroundabai.jumpingcrab.com']};
 app.use(cors(corsOptions));
 
 // middleware for parsing JSON
