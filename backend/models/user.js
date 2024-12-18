@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
-const urlRegex =
-  /^(https?:\/\/)(www\.)?([a-zA-Z0-9._~:/?%#[\]@!$&'()*+,;=-]+)$/;
+const urlRegex = /^(https?:\/\/)(www\.)?([a-zA-Z0-9._~:/?%#[\]@!$&'()*+,;=-]+)$/;
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -23,7 +22,7 @@ const userSchema = new mongoose.Schema({
     default:
       'https://practicum-content.s3.us-west-1.amazonaws.com/resources/moved_avatar_1604080799.jpg',
     validate: {
-      validator: function (v) {
+      validator(v) {
         return urlRegex.test(v);
       },
       message: (props) => `${props.value} is not  a valid URL!`,
@@ -34,7 +33,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
     validate: {
-      validator: function (v) {
+      validator(v) {
         return validator.isEmail(v);
       },
       message: (props) => `${props.value} is not a valid email!`,

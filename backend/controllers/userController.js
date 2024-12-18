@@ -33,10 +33,14 @@ const getUserById = (req, res, next) => {
 
 // POST /users - creates a user
 const createUser = (req, res, next) => {
-  const { name = 'JacquesCousteau', about = 'Explorer', avatar = 'https://practicum-content.s3.us-west-1.amazonaws.com/resources/moved_avatar_1604080799.jpg', email, password } = req.body;
+  const {
+    name = 'JacquesCousteau', about = 'Explorer', avatar = 'https://practicum-content.s3.us-west-1.amazonaws.com/resources/moved_avatar_1604080799.jpg', email, password,
+  } = req.body;
   bcrypt
     .hash(password, 10)
-    .then((hash) => User.create({ name, about, avatar, email, password: hash }))
+    .then((hash) => User.create({
+      name, about, avatar, email, password: hash,
+    }))
     .then((user) => res.status(201).json(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -80,7 +84,7 @@ const updateUser = (req, res, next) => {
   const { userId } = req.params;
   const { name, about } = req.body;
 
-  //check if the user is the owner of the card
+  // check if the user is the owner of the card
   if (userId !== req.user._id) {
     const error = new Error(
       'You do not have permission to update this profile',
