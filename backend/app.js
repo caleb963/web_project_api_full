@@ -51,6 +51,7 @@ app.get('/crash-test', () => {
 // read and data from JSON file
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
+const { error } = require('winston');
 
 
 
@@ -81,6 +82,10 @@ app.delete('/cards/:cardId/likes', dislikeCard);
 // manage non-existing routes
 app.use((req, res) => {
   res.status(404).json({ message: 'Route not found' });
+});
+
+app.use((err, req, res, next) => {
+  res.status(500).send({ message: 'Ha ocurrido un error en el servidor', error: err, e: err.message });
 });
 
 //  use the error handler middleware
