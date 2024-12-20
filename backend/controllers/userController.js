@@ -30,10 +30,7 @@ const getUserById = (req, res, next) => {
     .then((user) => {
       res.status(200).json(user);
     })
-    .catch((err) => {
-      next(err);
-      return null;
-    });
+    .catch((err) => next(err));
 };
 
 // POST /users - creates a user
@@ -49,9 +46,12 @@ const createUser = (req, res, next) => {
     .then((user) => res.status(201).json(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
+        const newErr = new Error('Validation failed');
+        newErr.statusCode = 400;
         err.statusCode = 400;
+        return next(newErr);
       }
-      next(err);
+      return next(err);
     });
 };
 
@@ -115,12 +115,16 @@ const updateUser = (req, res, next) => {
       error.statusCode = 404;
       throw error;
     })
-    .then((user) => res.status(200).json(user))
+    .then((user) => {
+      res.status(200).json(user);
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        err.statusCode = 400;
+        const newErr = new Error('Validation failed');
+        newErr.statusCode = 400;
+        return next(newErr);
       }
-      next(err);
+      return next(err);
     });
 };
 
@@ -151,12 +155,16 @@ const updateUserAvatar = (req, res, next) => {
       error.statusCode = 404;
       throw error;
     })
-    .then((user) => res.status(200).json(user))
+    .then((user) => {
+      res.status(200).json(user);
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        err.statusCode = 400;
+        const newErr = new Error('Validation failed');
+        newErr.statusCode = 400;
+        return next(newErr);
       }
-      next(err);
+      return next(err);
     });
 };
 
@@ -170,7 +178,7 @@ const getCurrentUser = (req, res, next) => {
         error.statusCode = 404;
         throw error;
       }
-      res.status(200).json(user);
+      return res.status(200).json(user);
     })
     .catch(next);
 };
