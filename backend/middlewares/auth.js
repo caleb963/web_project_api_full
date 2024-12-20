@@ -12,9 +12,9 @@ const auth = (req, res, next) => {
   try {
     const payload = jwt.verify(token, 'your_jwt_secret');
     req.user = payload;
-    next();
+    return next();
   } catch (err) {
-    res.status(401).json({ message: 'Invalid token' });
+    return res.status(401).json({ message: 'Invalid token' });
   }
 };
 

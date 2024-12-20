@@ -2,29 +2,30 @@ const mongoose = require('mongoose');
 const Card = require('../models/card');
 
 // GET /cards - returns all cards
-const getAllCards = (req, res) => {
+const getAllCards = (req, res, next) => {
   Card.find({})
     .then((cards) => res.status(200).json(cards))
-    .catch((err) => res.status(500).json({ message: 'Error retrieving cards', error: err }));
+    .catch((err) => next(err));
 };
 
 // POST /cards - creates a card
 
-const createCard = (req, res) => {
+const createCard = (req, res, next) => {
   const { name, link } = req.body;
-  const owner = req.user._id; // assuming req.user is set in req.user._id
+  const owner = req.user._id;
+
   Card.create({ name, link, owner })
     .then((card) => res.status(201).json(card))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return res.status(400).json({ message: 'Invalid Data', error: err });
       }
-      res.status(500).json({ message: 'Error creating card', error: err });
+      return next(err);
     });
 };
 
 // DELETE /cards/:cardId - deletes a card by _id
-const deleteCard = (req, res) => {
+const deleteCard = (req, res, next) => {
   const { cardId } = req.params;
 
   // validateif CardId is a valid ObjectId
@@ -32,7 +33,7 @@ const deleteCard = (req, res) => {
     return res.status(400).json({ message: 'Invalid card ID' });
   }
 
-  Card.findById(cardId)
+  return Card.findById(cardId)
     .then((card) => {
       if (!card) {
         return res.status(404).json({ message: 'Card not found' });
@@ -42,21 +43,19 @@ const deleteCard = (req, res) => {
       if (card.owner.toString() !== req.user._id) {
         return res
           .status(403)
-          .json({ message: 'You dont have permission to delete this card' });
+          .json({ message: 'You don\'t have permission to delete this card' });
       }
 
       return Card.findByIdAndDelete(cardId)
-        .then(() => res.status(200).json({ message: 'Card deleted succesfully' }),
-      )
-        .catch((err) => res.status(500).json({ message: 'Error deleting card', error: err }),
-      );
+        .then(() => {
+          res.status(200).json({ message: 'Card deleted succesfully' });
+        });
     })
-    .catch((err) => res.status(500).json({ message: 'Error finding card', error: err }),
-  );
+    .catch((err) => next(err));
 };
 
 // PUT /cards/:cardId/likes - give a like to a card
-const likeCard = (req, res) => {
+const likeCard = (req, res, next) => {
   const { cardId } = req.params;
   const userId = req.user._id;
 
@@ -65,7 +64,7 @@ const likeCard = (req, res) => {
     return res.status(400).json({ message: 'Invalid card ID' });
   }
 
-  Card.findByIdAndUpdate(
+  return Card.findByIdAndUpdate(
     cardId,
     { $addToSet: { likes: userId } },
     { new: true },
@@ -77,15 +76,15 @@ const likeCard = (req, res) => {
     })
     .then((card) => res.status(200).json(card))
     .catch((err) => {
-      if (err.statusCode === 404) {
-        return res.status(404).json({ message: err.message });
+      if (err.name === 'ValidationError') {
+        return res.status(400).json({ message: 'Validation failed' });
       }
-      res.status(500).json({ message: 'Error liking card', error: err });
+      return next(err);
     });
 };
 
 // DELETE /cards/:cardId/likes - remove a like from a card
-const dislikeCard = (req, res) => {
+const dislikeCard = (req, res, next) => {
   const { cardId } = req.params;
   const userId = req.user._id;
 
@@ -94,7 +93,11 @@ const dislikeCard = (req, res) => {
     return res.status(400).json({ message: 'Invalid card ID' });
   }
 
-  Card.findByIdAndUpdate(cardId, { $pull: { likes: userId } }, { new: true })
+  return Card.findByIdAndUpdate(
+    cardId,
+    { $pull: { likes: userId } },
+    { new: true },
+  )
     .orFail(() => {
       const error = new Error('Card not found');
       error.statusCode = 404;
@@ -102,10 +105,10 @@ const dislikeCard = (req, res) => {
     })
     .then((card) => res.status(200).json(card))
     .catch((err) => {
-      if (err.statusCode === 404) {
-        return res.status(404).json({ message: err.message });
+      if (err.name === 'ValidationError') {
+        return res.status(400).json({ message: 'Validation failed' });
       }
-      res.status(500).json({ message: 'Error disliking card', error: err });
+      return next(err);
     });
 };
 

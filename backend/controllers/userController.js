@@ -27,8 +27,13 @@ const getUserById = (req, res, next) => {
       error.statusCode = 404;
       throw error;
     })
-    .then((user) => res.status(200).json(user))
-    .catch(next);
+    .then((user) => {
+      res.status(200).json(user);
+    })
+    .catch((err) => {
+      next(err);
+      return null;
+    });
 };
 
 // POST /users - creates a user
