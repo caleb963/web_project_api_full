@@ -1,4 +1,3 @@
-const router = express.Router();
 
 // controllers for the authentification routes
 const { signup, signin } = require('../controllers/authController');
