@@ -81,7 +81,6 @@ app.use((err, req, res) => {
 });
 
 // use the error logger middleware
-app.use(errorLogger);
 
 //  use the error handler middleware
 app.use(errors());
