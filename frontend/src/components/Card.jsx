@@ -14,7 +14,7 @@ const cardDeleteButtonClassName = `elements__card-delete ${isOwn ? 'elements__ca
 const isLiked = card.likes.some(i => i._id === currentUser._id);
 
 // class for the like button
-const cardLikeButtonClassName = `elements__card-heart ${isLiked ? 'card__heart_active' : ''}`;
+const cardLikeButtonClassName = `elements__card-heart ${isLiked ? 'elements__card-heart_active' : ''}`;
 
     function handleClick() {
         onCardClick(card);
