@@ -85,7 +85,7 @@ const login = (req, res, next) => {
 
 // PATCH /users/:userId - update a user by _id
 const updateUser = (req, res, next) => {
-  const { userId } = req.params;
+  const userId = req.user._id;
   const { name, about } = req.body;
 
   // check if the user is the owner of the card
@@ -129,7 +129,7 @@ const updateUser = (req, res, next) => {
 
 // PATCH /users/:userId/avatar - update a user's avatar by _id
 const updateUserAvatar = (req, res, next) => {
-  const { userId } = req.params;
+  const userId = req.user._id;
   const { avatar } = req.body;
 
   // Check if the user is the owner of the profile

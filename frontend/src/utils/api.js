@@ -59,7 +59,7 @@ updateUserInfo(data) {
 }
 
 setUserAvatar(data) {
-  return fetch(`${this._adress}/me/avatar`, {
+  return fetch(`${this._adress}/users/me/avatar`, {
     method: 'PATCH',
     headers: this._getHeaders(),
     body: JSON.stringify({
@@ -82,7 +82,8 @@ addCard(data) {
 }
 
 const api = new Api({
-    adress: process.env.REACT_APP_BASE_URL || 'https://api.aroundabai.jumpingcrab.com',
+  //  adress: process.env.REACT_APP_BASE_URL || 'https://api.aroundabai.jumpingcrab.com',
+    adress: process.env.REACT_APP_BASE_URL || 'http://localhost:3000',
     groupId: 'web_es_12',
 });
 

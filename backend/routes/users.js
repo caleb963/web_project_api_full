@@ -15,9 +15,9 @@ router.get('/', getAllUsers);
 router.get('/:userId', getUserById);
 
 // PATCH /users/:userId - updates a user by _id
-router.patch('/:userId', updateUser);
+router.patch('/me', updateUser);
 
 // PATCH /users/:userId/avatar - updates a user's avatar by _id
-router.patch('/:userId/avatar', updateUserAvatar);
+router.patch('/me/avatar', updateUserAvatar);
 
 module.exports = router;
