@@ -20,6 +20,6 @@ router.delete('/:cardId', deleteCard);
 
 router.put('/likes/:cardId', likeCard);
 
-router.delete('/:cardId/likes', dislikeCard);
+router.delete('/likes/:cardId', dislikeCard);
 
 module.exports = router;
