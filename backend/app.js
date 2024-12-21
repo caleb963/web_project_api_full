@@ -11,6 +11,7 @@ const auth = require('./middlewares/auth');
 const errorHandler = require('./middlewares/errorHandler');
 const userValidation = require('./middlewares/validation');
 const { requestLogger } = require('./middlewares/loggers');
+const logger = require('./utils/logger');
 
 require('dotenv').config(); // load environment variables
 
@@ -24,7 +25,10 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 // connect to MONGODB
-mongoose.connect(process.env.MONGO_URI);
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 // import models
 require('./models/user');
@@ -43,6 +47,7 @@ app.get('/crash-test', () => {
 // read and data from JSON file
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
+const { logger } = require('express-winston');
 
 // new routes
 app.post('/signin', userValidation.login, login);
@@ -76,11 +81,15 @@ app.use((err, req, res) => {
   res.status(500).send({ message: 'Ha ocurrido un error en el servidor', error: err, e: err.message });
 });
 
+// use the error logger middleware
+app.use(errorLogger);
+
 //  use the error handler middleware
 app.use(errors());
 app.use(errorHandler);
 
+// start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  logger.info(`Server is running on http://localhost:${PORT}`);
 });
