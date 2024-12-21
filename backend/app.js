@@ -11,7 +11,7 @@ const auth = require('./middlewares/auth');
 const errorHandler = require('./middlewares/errorHandler');
 const userValidation = require('./middlewares/validation');
 const { requestLogger } = require('./middlewares/loggers');
-const logger = require('./utils/logger');
+const errorLogger = require('./utils/logger');
 
 require('dotenv').config(); // load environment variables
 
@@ -47,7 +47,6 @@ app.get('/crash-test', () => {
 // read and data from JSON file
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
-const { logger } = require('express-winston');
 
 // new routes
 app.post('/signin', userValidation.login, login);
@@ -91,5 +90,5 @@ app.use(errorHandler);
 // start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  logger.info(`Server is running on http://localhost:${PORT}`);
+  errorLogger.info(`Server is running on http://localhost:${PORT}`);
 });

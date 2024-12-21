@@ -21,7 +21,7 @@ const getUserById = (req, res, next) => {
     return next(error);
   }
 
-  User.findById(userId)
+  return User.findById(userId)
     .orFail(() => {
       const error = new Error('User not found');
       error.statusCode = 404;
@@ -48,7 +48,6 @@ const createUser = (req, res, next) => {
       if (err.name === 'ValidationError') {
         const newErr = new Error('Validation failed');
         newErr.statusCode = 400;
-        err.statusCode = 400;
         return next(newErr);
       }
       return next(err);
@@ -78,7 +77,7 @@ const login = (req, res, next) => {
         const token = jwt.sign({ _id: user._id }, 'your_jwt_secret', {
           expiresIn: '7d',
         });
-        res.status(200).json({ token });
+        return res.status(200).json({ token });
       });
     })
     .catch(next);
@@ -105,7 +104,7 @@ const updateUser = (req, res, next) => {
     return next(error);
   }
 
-  User.findByIdAndUpdate(
+  return User.findByIdAndUpdate(
     userId,
     { name, about },
     { new: true, runValidators: true },
@@ -149,7 +148,7 @@ const updateUserAvatar = (req, res, next) => {
     return next(error);
   }
 
-  User.findByIdAndUpdate(userId, { avatar }, { new: true, runValidators: true })
+  return User.findByIdAndUpdate(userId, { avatar }, { new: true, runValidators: true })
     .orFail(() => {
       const error = new Error('User not found');
       error.statusCode = 404;
