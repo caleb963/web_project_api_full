@@ -3,7 +3,7 @@ const Card = require('../models/card');
 
 // GET /cards - returns all cards
 const getAllCards = (req, res, next) => {
-  Card.find({})
+  Card.find({}).populate('likes').populate('owner')
     .then((cards) => res.status(200).json(cards))
     .catch((err) => next(err));
 };
@@ -68,7 +68,7 @@ const likeCard = (req, res, next) => {
     cardId,
     { $addToSet: { likes: userId } },
     { new: true },
-  )
+  ).populate('likes').populate('owner')
     .orFail(() => {
       const error = new Error('Card not found');
       error.statusCode = 404;
@@ -97,7 +97,7 @@ const dislikeCard = (req, res, next) => {
     cardId,
     { $pull: { likes: userId } },
     { new: true },
-  )
+  ).populate('likes').populate('owner')
     .orFail(() => {
       const error = new Error('Card not found');
       error.statusCode = 404;
