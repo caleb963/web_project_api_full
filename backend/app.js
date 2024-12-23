@@ -3,15 +3,16 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { errors } = require('celebrate');
-const {
-  updateUser, updateUserAvatar, login, createUser, getCurrentUser,
-} = require('./controllers/userController');
-const { likeCard, dislikeCard } = require('./controllers/cardController');
-const auth = require('./middlewares/auth');
 const errorHandler = require('./middlewares/errorHandler');
+const logger = require('./utils/logger');
 const userValidation = require('./middlewares/validation');
+const auth = require('./middlewares/auth');
+const { likeCard, dislikeCard } = require('./controllers/cardController');
 const { requestLogger } = require('./middlewares/loggers');
 const errorLogger = require('./utils/logger');
+const {
+   login, createUser,
+} = require('./controllers/userController');
 
 require('dotenv').config(); // load environment variables
 
@@ -60,8 +61,14 @@ app.get('/users/me', getCurrentUser);
 app.use('/users', usersRouter);
 app.use('/cards', cardsRouter);
 
-// other routes
+app.use((req, res) => {
+  res.status(404).json({ message: 'Route not found' });
+});
 
+// apply error logger middleware
+app.use(errorLogger);
+
+/*
 app.patch('/users/me', userValidation.updateUser, updateUser);
 app.patch(
   '/users/me/avatar',
@@ -79,8 +86,7 @@ app.use((req, res) => {
 app.use((err, req, res) => {
   res.status(500).send({ message: 'Ha ocurrido un error en el servidor', error: err, e: err.message });
 });
-
-// use the error logger middleware
+*/
 
 //  use the error handler middleware
 app.use(errors());
