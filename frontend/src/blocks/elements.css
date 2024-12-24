@@ -57,7 +57,11 @@
   display:flex;
   justify-content: space-between;
   align-items:center;
-  padding:3px 15px;
+  padding-left:15px;
+}
+
+.elements__card-like-count {
+  padding-right: 15px;
 }
 
 .elements__card-title{
