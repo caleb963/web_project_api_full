@@ -15,6 +15,9 @@ router.use(auth);
 // GET /users - returns all users
 router.get('/', getAllUsers);
 
+// GET /users/me - returns the current user
+router.get('/me', getCurrentUser);
+
 // GET /users/:userId - return a user by _id
 router.get('/:userId', getUserById);
 
@@ -24,7 +27,6 @@ router.patch('/me', userValidation.updateUser, updateUser);
 // PATCH /users/:userId/avatar - updates a user's avatar by _id
 router.patch('/me/avatar', userValidation.updateUserAvatar, updateUserAvatar);
 
-// GET /users/me - returns the current user
-router.get('/me', getCurrentUser);
+
 
 module.exports = router;

@@ -55,7 +55,6 @@ app.post('/signup', userValidation.createUser, createUser);
 app.use(auth); // Apply the auth middleware to all routes below
 
 // route to get the current user
-app.get('/users/me', getCurrentUser);
 app.use('/users', usersRouter);
 app.use('/cards', cardsRouter);
 
