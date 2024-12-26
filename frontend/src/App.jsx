@@ -45,7 +45,7 @@ useEffect(() => {
   if (token) {
     checkToken(token)
       .then((data) => {
-        setCurrentUser(data.data);
+        setCurrentUser(data);
         setIsAuthenticated(true);
         navigate('/');
       })
@@ -125,7 +125,7 @@ const handleCardLike = (card) => {
 };
 
 const handleCardDelete = (card) => {
-  if(card.owner._id === currentUser._id) {
+  if(card.owner === currentUser._id) {
     api.deleteCard(card._id).then(() => {
       setCards((state) => state.filter((c) => c._id !== card._id));
     }).catch((err) => console.log(err));
