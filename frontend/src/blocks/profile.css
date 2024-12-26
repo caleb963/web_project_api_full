@@ -6,6 +6,8 @@
   display:flex;
   align-items:center;
   overflow:hidden;
+  position:relative;
+  height: 100vh;
 }
 
 .profile__avatar-content{
@@ -107,6 +109,9 @@
 
 .profile__add-button{
   margin-right:auto;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
 }
 
 .profile__add-button:hover{
